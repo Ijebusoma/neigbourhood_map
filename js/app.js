@@ -115,17 +115,11 @@ var locations = [
         //global variables
         var map;
         var bounds;
-        function initMap(){
-        var map = new google.maps.Map(document.getElementById('map'), {
-           center: {lat: 40.7413549, lng: -73.9980244},
-          zoom: 13,
-          styles: styles,
-          //mapTypeControl: false
-        });
 
+        function initMap(){
+        ko.applyBindings(new ViewModel());
         infoWindow = new google.maps.InfoWindow();
-       bounds = new google.maps.LatLngBounds();
-    ko.applyBindings(new ViewModel());
+        bounds = new google.maps.LatLngBounds();
         }
 
 
@@ -138,20 +132,21 @@ var locations = [
 	this.city = "";
 	this.phone = "";
 	//console.log(this.position)
+	this.marker = new google.maps.Marker({
+       position: this.position,
+        title: this.name,
+        animation: google.maps.Animation.DROP,
+        map:map
+         });
 
+this.marker.setMap(map)
 	this.visible = ko.observable(true);
 
 	//array of locations is pushed from the VM and markers drop in upon page load
-this.marker = new google.maps.Marker({
-       position: {lat: 40.7413549, lng: -73.9980244},
-        title: data.title,
-        animation: google.maps.Animation.DROP,
-        map:map
-        //icon: defaultIcon
-    });
-    this.marker.setMap(map);
 
-   this.showMarker = ko.computed(function() {
+    //this.marker.setMap(map);
+
+  this.showMarker = ko.computed(function() {
 		if(this.visible() === true) {
 			this.marker.setMap(map);
 		} else {
@@ -170,10 +165,15 @@ var self = this;
 this.LocationArray = ko.observableArray([])
 this.searchString = ko.observable("");
 
-
+var map = new google.maps.Map(document.getElementById('map'), {
+           center: {lat: 40.7413549, lng: -73.9980244},
+          zoom: 13,
+          styles: styles,
+          //mapTypeControl: false
+        });
        //add the location to a location list
         locations.forEach(function(locationItem) {
-        self.LocationArray.push(new LocationModel(locationItem))
+        self.LocationArray.push(new LocationModel(locationItem));
         });
 
 	this.filteredList = ko.computed(function() {
