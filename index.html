@@ -56,7 +56,7 @@
       <a class="navbar-brand" href="#">UNM</a>
     </div>
     <ul class="nav navbar-nav" data-bind="foreach:filteredList">
-        <li class="places-list" data-bind="text:name"><a href="#"></a></li>
+        <li class="places-list" data-bind="text:name, click:bounce"><a href="#"></a></li>
     </ul>
     <input id="filter" class=" filterform navbar-left" data-bind="textInput: searchString, valueUpdate: 'afterkeydown'">
   </div>

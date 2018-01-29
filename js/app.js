@@ -113,10 +113,19 @@ var locations = [
         ];
 
         //global variables
-        var map;
+
         var bounds;
+        var map;
 
         function initMap(){
+        map = new google.maps.Map(document.getElementById('map'), {
+           center: {lat: 40.7413549, lng: -73.9980244},
+          zoom: 13,
+          styles: styles,
+          mapTypeControl: false
+        });
+
+
         ko.applyBindings(new ViewModel());
         infoWindow = new google.maps.InfoWindow();
         bounds = new google.maps.LatLngBounds();
@@ -131,7 +140,8 @@ var locations = [
 	this.street = "";
 	this.city = "";
 	this.phone = "";
-	//console.log(this.position)
+
+//array of locations is pushed from the VM and markers drop in upon page load
 	this.marker = new google.maps.Marker({
        position: this.position,
         title: this.name,
@@ -139,14 +149,9 @@ var locations = [
         map:map
          });
 
-this.marker.setMap(map)
+
 	this.visible = ko.observable(true);
-
-	//array of locations is pushed from the VM and markers drop in upon page load
-
-    //this.marker.setMap(map);
-
-  this.showMarker = ko.computed(function() {
+		this.showMarker = ko.computed(function() {
 		if(this.visible() === true) {
 			this.marker.setMap(map);
 		} else {
@@ -156,8 +161,20 @@ this.marker.setMap(map)
 	}, this);
 
 
+	this.bounce = function(place) {
+	google.maps.event.trigger(self.marker, 'click');
 
 	};
+
+	//marker event handler
+this.marker.addListener('click', function(){
+self.marker.setAnimation(google.maps.Animation.BOUNCE);
+
+})
+};
+
+
+
 
 
 function ViewModel(){
@@ -165,12 +182,7 @@ var self = this;
 this.LocationArray = ko.observableArray([])
 this.searchString = ko.observable("");
 
-var map = new google.maps.Map(document.getElementById('map'), {
-           center: {lat: 40.7413549, lng: -73.9980244},
-          zoom: 13,
-          styles: styles,
-          //mapTypeControl: false
-        });
+
        //add the location to a location list
         locations.forEach(function(locationItem) {
         self.LocationArray.push(new LocationModel(locationItem));
