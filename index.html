@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+ </head>
+<script>
+
+</script>
+<style>
+
+ #map {
+        height: 100%;
+        border-radius:5px;
+
+        }
+
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .places{
+      background-color:yellow;
+
+      width:20px;
+      height:10px;
+      }
+      .filterform{
+      position:relative;
+      top:10px;
+      border-radius:5px;
+      border-color:yellow;
+      }
+      .nav{
+      background-color:#ecd674;
+      border-radius:5px;
+      }
+      .places-list{
+      margin-right:10px;
+      color:blue;
+      position:relative;
+      top:20px;
+      }
+</style>
+ <body>
+ <nav class="navbar nav">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">UNM</a>
+    </div>
+    <ul class="nav navbar-nav" data-bind="foreach:filteredList">
+        <li class="places-list" data-bind="text:name"><a href="#"></a></li>
+    </ul>
+    <input id="filter" class=" filterform navbar-left" data-bind="textInput: searchString, valueUpdate: 'afterkeydown'">
+  </div>
+</nav>
+
+ <div id="map"></div>
+ </body>
+<script src="js/lib/knockout-3.2.0.js"></script>
+ <script  defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY2c7XzeUZeLOBKE43mKDORwimce_7KJk&callback=initMap" onerror="googleMapError()" ></script>
+<script src="js/app.js"></script>
+</html>
+
