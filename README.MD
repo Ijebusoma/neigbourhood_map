@@ -17,9 +17,9 @@ GETTING STARTED
 You can also find the demo (here)[https://ijebusoma.github.io/neigbourhood_map/]
  
 RESOURCES REFERENCED WHILE BUILDING THIS PROJECT:
-* Knockout JS [docs](knockoutjs.com)
+* Knockout JS [docs](www.knockoutjs.com)
 * https://www.sitepoint.com/beginners-guide-to-knockoutjs-part-1/
 * StackOverflow
 * Foursquare API [docs](https://developer.foursquare.com/docs/api/venues/search)
 * Intro To Ajax by Udacity
-* (Google Maps Javascript API)[https://developers.google.com/maps/documentation/javascript/]
+* [Google Maps Javascript API](https://developers.google.com/maps/documentation/javascript/)
