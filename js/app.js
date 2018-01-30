@@ -139,9 +139,9 @@ var locations = [
 	this.name = data.title;
 	this.position=data.location;
 	this.URL = "";
-	this.street = "";
-	this.city = "";
-	this.phone = "";
+	this.hours = "";
+	this.address = "";
+
 
 //array of locations is pushed from the VM and markers drop in upon page load
 	this.marker = new google.maps.Marker({
@@ -154,33 +154,31 @@ var locations = [
          //FOURSQUARE API
  clientID="GCQZ0YREZOBQUMWO54DCJTBC33WPB4AR2N0L30ZVO5ZHC5GD"
 clientSecret="VVZIKOHDH0RIEPXBXZPYEYPWBC3ETZISHDXX3ILEU2R5DQP1"
-	var foursquareUrl = "https://api.foursquare.com/v2/venues/search?ll="+data.location.lat+','+data.location.lng+'&client_id=' + clientID + '&client_secret=' + clientSecret + '&v=20160118' + '&query=' + this.name;
-	$.ajax(foursquareUrl, {
+	var foursquareUrl = "https://api.foursquare.com/v2/venues/search?ll=" +data.location.lat+','+data.location.lng+'&client_id=' + clientID + '&client_secret=' + clientSecret + '&v=20160118' + '&query=' + this.name;
+	$.ajax({
+	 url:foursquareUrl,
+	 data:{
+	 format:'json'
+	 },
       success: function(data) {
          var results = data.response.venues[0];
-        self.name = results.name;
+         self.address = results.contact.phone;
+         if(self.address === 'undefined'){
+         self.address = "";
+        }
+        //self.name = results.name;
+        //self.URL = results.url;
+        //self.hours = results.hours;
+        //console.log(self.address)
 
       },
       error: function() {
-          alert("error while fetching Foursquare data")
+          alert("Error while fetching Foursquare data")
       }
    });
-    this.infoWindowContent ='<h4>'+self.name+'</h4>'
+    this.infoWindowContent ='<h4>'+self.address+'</h4>'+'<p>'+self.address+'</p>'
     this.infoWindow = new google.maps.InfoWindow({content: this.infoWindowContent});
-	/**
 
-	var foursquareUrl = " https://api.foursquare.com/v2/venues/search?ll="+this.position+'&client_id=' + clientID + '&client_secret=' + clientSecret
-	$.ajax({
-  url:foursquareUrl,
-  dataType:"json",
-  success:(function(response)
-  {
-
-
-  })
-});**/
-
-//return false;
 
 
    this.visible = ko.observable(true);
