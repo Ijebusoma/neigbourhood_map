@@ -108,9 +108,8 @@ var locations = [
           {title: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}},
           {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
           {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
-          {title: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}},
-          {title: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
-        ];
+          {title:'Times Square', location:{lat:40.734201,lng:-73.914769}}
+          ];
 
         //global variables
 
@@ -127,7 +126,6 @@ var locations = [
           mapTypeControl: false
         });
 
-
         ko.applyBindings(new ViewModel());
         infoWindow = new google.maps.InfoWindow();
         bounds = new google.maps.LatLngBounds();
@@ -138,20 +136,11 @@ var locations = [
 	var self = this;
 	this.name = data.title;
 	this.position=data.location;
-	this.URL = "";
+	//this.URL;
 	this.hours = "";
 	this.address = "";
 
-
-//array of locations is pushed from the VM and markers drop in upon page load
-	this.marker = new google.maps.Marker({
-       position: this.position,
-        title: this.name,
-        animation: google.maps.Animation.DROP,
-        map:map
-         });
-
-         //FOURSQUARE API
+ //FOURSQUARE API Attachments
  clientID="GCQZ0YREZOBQUMWO54DCJTBC33WPB4AR2N0L30ZVO5ZHC5GD"
 clientSecret="VVZIKOHDH0RIEPXBXZPYEYPWBC3ETZISHDXX3ILEU2R5DQP1"
 	var foursquareUrl = "https://api.foursquare.com/v2/venues/search?ll=" +data.location.lat+','+data.location.lng+'&client_id=' + clientID + '&client_secret=' + clientSecret + '&v=20160118' + '&query=' + this.name;
@@ -161,24 +150,38 @@ clientSecret="VVZIKOHDH0RIEPXBXZPYEYPWBC3ETZISHDXX3ILEU2R5DQP1"
 	 format:'json'
 	 },
       success: function(data) {
-         var results = data.response.venues[0];
-         self.address = results.contact.phone;
-         if(self.address === 'undefined'){
-         self.address = "";
-        }
-        //self.name = results.name;
-        //self.URL = results.url;
-        //self.hours = results.hours;
-        //console.log(self.address)
 
-      },
+         //var results = data.response.venues[0];
+
+         var results = data['response']['venues'][0];
+         //address = data['location']['formattedAddress'];
+
+         self.URL = results.url;
+           self.address=results.location.address;
+         if(typeof self.URL === 'undefined'){
+         self.URL === 'Website N/A'
+         }
+        },
       error: function() {
           alert("Error while fetching Foursquare data")
       }
    });
-    this.infoWindowContent ='<h4>'+self.address+'</h4>'+'<p>'+self.address+'</p>'
+
+
+   //FOURSQUARE ENDS
+    this.infoWindowContent ='<p>'+self.name+'</p>'+'<p>'+self.URL+'</p>'
     this.infoWindow = new google.maps.InfoWindow({content: this.infoWindowContent});
 
+
+
+
+//array of locations is pushed from the VM and markers drop in upon page load
+	this.marker = new google.maps.Marker({
+       position: this.position,
+        title: this.name,
+        animation: google.maps.Animation.DROP,
+        map:map
+         });
 
 
    this.visible = ko.observable(true);
@@ -197,9 +200,7 @@ clientSecret="VVZIKOHDH0RIEPXBXZPYEYPWBC3ETZISHDXX3ILEU2R5DQP1"
 
 	};
 
-
-
-	//marker event handler
+//marker event handler
 this.marker.addListener('click', function(){
 self.infoWindow.open(map, this);
 self.marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -209,10 +210,6 @@ setTimeout(function() {
 
 })
 };
-
-
-
-
 
 function ViewModel(){
 var self = this;
@@ -240,12 +237,11 @@ this.searchString = ko.observable("");
                 var result = str.includes(filter);
                 locationItem.visible(result); //show only the locations that are in the input string
 				return result;
-
 },self);
 }
 });
 }
-
+//Google Map error handler
  function googleMapError(){
-alert("error")
+document.getElementById('map').innerHTML= "There was an error while fetching data from Google Maps, check your internet connection and try again"
 }
