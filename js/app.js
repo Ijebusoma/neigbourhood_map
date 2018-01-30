@@ -116,6 +116,8 @@ var locations = [
 
         var bounds;
         var map;
+        var clientID;
+        var clientSecret;
 
         function initMap(){
         map = new google.maps.Map(document.getElementById('map'), {
@@ -149,8 +151,39 @@ var locations = [
         map:map
          });
 
+         //FOURSQUARE API
+ clientID="GCQZ0YREZOBQUMWO54DCJTBC33WPB4AR2N0L30ZVO5ZHC5GD"
+clientSecret="VVZIKOHDH0RIEPXBXZPYEYPWBC3ETZISHDXX3ILEU2R5DQP1"
+	var foursquareUrl = "https://api.foursquare.com/v2/venues/search?ll="+data.location.lat+','+data.location.lng+'&client_id=' + clientID + '&client_secret=' + clientSecret + '&v=20160118' + '&query=' + this.name;
+	$.ajax(foursquareUrl, {
+      success: function(data) {
+         var results = data.response.venues[0];
+        self.name = results.name;
 
-	this.visible = ko.observable(true);
+      },
+      error: function() {
+          alert("error while fetching Foursquare data")
+      }
+   });
+    this.infoWindowContent ='<h4>'+self.name+'</h4>'
+    this.infoWindow = new google.maps.InfoWindow({content: this.infoWindowContent});
+	/**
+
+	var foursquareUrl = " https://api.foursquare.com/v2/venues/search?ll="+this.position+'&client_id=' + clientID + '&client_secret=' + clientSecret
+	$.ajax({
+  url:foursquareUrl,
+  dataType:"json",
+  success:(function(response)
+  {
+
+
+  })
+});**/
+
+//return false;
+
+
+   this.visible = ko.observable(true);
 		this.showMarker = ko.computed(function() {
 		if(this.visible() === true) {
 			this.marker.setMap(map);
@@ -166,9 +199,15 @@ var locations = [
 
 	};
 
+
+
 	//marker event handler
 this.marker.addListener('click', function(){
+self.infoWindow.open(map, this);
 self.marker.setAnimation(google.maps.Animation.BOUNCE);
+setTimeout(function() {
+      		self.marker.setAnimation(null);
+     	}, 2100);
 
 })
 };
@@ -186,6 +225,7 @@ this.searchString = ko.observable("");
        //add the location to a location list
         locations.forEach(function(locationItem) {
         self.LocationArray.push(new LocationModel(locationItem));
+
         });
 
 	this.filteredList = ko.computed(function() {
