@@ -150,9 +150,7 @@ clientSecret="VVZIKOHDH0RIEPXBXZPYEYPWBC3ETZISHDXX3ILEU2R5DQP1"
 
   //this functions creates an infowindow based on the ajax request triggered when a marker is clicked
 function openWindow(marker,infoWindow){
-alert(marker.lat)
-
-	var foursquareUrl = "https://api.foursquare.com/v2/venues/search?ll=" +marker.lat+','+marker.lng+'&client_id=' + clientID + '&client_secret=' + clientSecret + '&v=20160118' + '&query=' + marker.title;
+var foursquareUrl = "https://api.foursquare.com/v2/venues/search?ll=" +data.lat+','+data.lng+'&client_id=' + clientID + '&client_secret=' + clientSecret + '&v=20160118' + '&query=' + marker.title;
 	$.ajax({
 	 url:foursquareUrl,
 	 async:true,
@@ -160,23 +158,19 @@ alert(marker.lat)
 	 format:'json'
 	 },
       success: function(data) {
-      alert("success")
-      /**
-
-         //var results = data.response.venues[0];
+      //var results = data.response.venues[0];
 
          var results = data['response']['venues'][0];
-         //address = data['location']['formattedAddress'];
+         self.address = data['location']['formattedAddress'];
 
          self.URL = results.url;
            self.address=results.location.address;
          if(typeof self.URL === 'undefined'){
-         self.URL === 'Website N/A'
+         self.URL = 'Website N/A'
          }
 
-         infoWindow.setContent('<p>'+self.name+'</p>'+'<p>'+self.URL+'</p>')
+         infoWindow.setContent('<p>'+self.URL+'</p>'+'<p>'+self.address+'</p>')
          infoWindow.open(map,marker)
-**/
         },
       error: function() {
           alert("Error while fetching Foursquare data")
