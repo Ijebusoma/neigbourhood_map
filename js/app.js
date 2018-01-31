@@ -1,4 +1,5 @@
 
+//*** MAP STYLE FROM SNAZZYMAPS.COM ***//
 var styles = [
     {
         "featureType": "landscape",
@@ -111,7 +112,7 @@ var locations = [
           {title:'Times Square',lat:40.734201,lng:-73.914769}
           ];
 
-        //global variables
+        //GLOBAL VARIABLES
 
         var bounds;
         var map;
@@ -137,18 +138,15 @@ var locations = [
 	this.name = data.title;
 	this.lat=data.lat;
 	this.lng=data.lng;
-	//this.lng=data.location.lng;
-	//this.URL;
-	this.hours = "";
 	this.address = "";
 
 
- //FOURSQUARE API Attachments
+ //***FOURSQUARE API BEGINS***//
  clientID="GCQZ0YREZOBQUMWO54DCJTBC33WPB4AR2N0L30ZVO5ZHC5GD"
 clientSecret="VVZIKOHDH0RIEPXBXZPYEYPWBC3ETZISHDXX3ILEU2R5DQP1"
-  var largeInfowindow = new google.maps.InfoWindow();
+  var largeInfoWindow = new google.maps.InfoWindow();
 
-  //this functions creates an infowindow based on the ajax request triggered when a marker is clicked
+  //this function creates an infowindow based on the ajax request triggered when a marker is clicked
 function openWindow(marker,infoWindow){
 var foursquareUrl = "https://api.foursquare.com/v2/venues/search?ll=" +data.lat+','+data.lng+'&client_id=' + clientID + '&client_secret=' + clientSecret + '&v=20160118' + '&query=' + marker.title;
 	$.ajax({
@@ -158,18 +156,20 @@ var foursquareUrl = "https://api.foursquare.com/v2/venues/search?ll=" +data.lat+
 	 format:'json'
 	 },
       success: function(data) {
-      //var results = data.response.venues[0];
-
          var results = data['response']['venues'][0];
-         self.address = data['location']['formattedAddress'];
+         self.address = results['location']['formattedAddress'];
+         self.phone=results.contact.formattedPhone
+         if (typeof self.phone == 'undefined'){
+         self.phone ="";
+         }
 
          self.URL = results.url;
            self.address=results.location.address;
          if(typeof self.URL === 'undefined'){
-         self.URL = 'Website N/A'
+         self.URL = ''
          }
 
-         infoWindow.setContent('<p>'+self.URL+'</p>'+'<p>'+self.address+'</p>')
+         infoWindow.setContent('<p>'+self.URL+'</p>'+'<p>'+self.address+'</p>'+'<p>'+self.phone+'</p>')
          infoWindow.open(map,marker)
         },
       error: function() {
@@ -177,9 +177,9 @@ var foursquareUrl = "https://api.foursquare.com/v2/venues/search?ll=" +data.lat+
       }
    });
 }
+//***FOURSQUARE API CALL ENDS***//
 
-   //FOURSQUARE ENDS
-//array of locations is pushed from the VM and markers drop in upon page load
+//***array of location data is pushed from the ViewModel and markers drop in upon page load***//
 	this.marker = new google.maps.Marker({
       position: new google.maps.LatLng(this.lat, this.lng),
         title: this.name,
@@ -204,17 +204,19 @@ var foursquareUrl = "https://api.foursquare.com/v2/venues/search?ll=" +data.lat+
 	};
 
 
-//marker event handler
+//***MARKERS' EVENT HANDLER ***//
 this.marker.addListener('click', function(){
 self.marker.setAnimation(google.maps.Animation.BOUNCE);
 setTimeout(function() {
       		self.marker.setAnimation(null);
      	}, 2100);
 
-openWindow(this,largeInfowindow) //calls the function to perform ajax request and fetch data
+openWindow(this,largeInfoWindow) //calls the function to perform open infowindow
+                                 //with data from ajax request
 })
 };
 
+//****THE VIEW MODEL ***//
 function ViewModel(){
 var self = this;
 this.LocationArray = ko.observableArray([])
@@ -227,7 +229,8 @@ this.searchString = ko.observable("");
 
         });
 
-	this.filteredList = ko.computed(function() {
+        //***FILTER ***//
+this.filteredList = ko.computed(function() {
 		var filter = self.searchString().toLowerCase();
 		if (!filter) { //if nothing is entered in search string
 			self.LocationArray().forEach(function(locationItem){
@@ -245,7 +248,7 @@ this.searchString = ko.observable("");
 }
 });
 }
-//Google Map error handler
+//***GOOGLE MAP ERROR HANDLER***//
  function googleMapError(){
 document.getElementById('map').innerHTML= "There was an error while fetching data from Google Maps, check your internet connection and try again"
 }
