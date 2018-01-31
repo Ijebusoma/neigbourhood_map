@@ -103,7 +103,7 @@ var styles = [
             }
         ]
     }
-]
+];
 var locations = [
           {title: 'Park Ave Penthouse', lat: 40.7713024, lng: -73.9632393},
           {title: 'Chelsea Loft', lat: 40.7444883, lng: -73.9949465},
@@ -142,8 +142,8 @@ var locations = [
 
 
  //***FOURSQUARE API BEGINS***//
- clientID="GCQZ0YREZOBQUMWO54DCJTBC33WPB4AR2N0L30ZVO5ZHC5GD"
-clientSecret="VVZIKOHDH0RIEPXBXZPYEYPWBC3ETZISHDXX3ILEU2R5DQP1"
+ clientID="GCQZ0YREZOBQUMWO54DCJTBC33WPB4AR2N0L30ZVO5ZHC5GD";
+clientSecret="VVZIKOHDH0RIEPXBXZPYEYPWBC3ETZISHDXX3ILEU2R5DQP1";
   var largeInfoWindow = new google.maps.InfoWindow();
 
   //this function creates an infowindow based on the ajax request triggered when a marker is clicked
@@ -156,9 +156,9 @@ var foursquareUrl = "https://api.foursquare.com/v2/venues/search?ll=" +data.lat+
 	 format:'json'
 	 },
       success: function(data) {
-         var results = data['response']['venues'][0];
-         self.address = results['location']['formattedAddress'];
-         self.phone=results.contact.formattedPhone
+         var results = data.response.venues[0];
+         self.address = results.location.formattedAddress;
+         self.phone=results.contact.formattedPhone;
          if (typeof self.phone == 'undefined'){
          self.phone ="";
          }
@@ -166,14 +166,14 @@ var foursquareUrl = "https://api.foursquare.com/v2/venues/search?ll=" +data.lat+
          self.URL = results.url;
            self.address=results.location.address;
          if(typeof self.URL === 'undefined'){
-         self.URL = ''
+         self.URL = '';
          }
 
-         infoWindow.setContent('<p>'+self.URL+'</p>'+'<p>'+self.address+'</p>'+'<p>'+self.phone+'</p>')
-         infoWindow.open(map,marker)
+         infoWindow.setContent('<p>'+self.URL+'</p>'+'<p>'+self.address+'</p>'+'<p>'+self.phone+'</p>');
+         infoWindow.open(map,marker);
         },
       error: function() {
-          alert("Error while fetching Foursquare data")
+          alert("Error while fetching Foursquare data");
       }
    });
 }
@@ -211,15 +211,15 @@ setTimeout(function() {
       		self.marker.setAnimation(null);
      	}, 2100);
 
-openWindow(this,largeInfoWindow) //calls the function to perform open infowindow
+openWindow(this,largeInfoWindow); //calls the function to perform open infowindow
                                  //with data from ajax request
-})
+});
 };
 
 //****THE VIEW MODEL ***//
 function ViewModel(){
 var self = this;
-this.LocationArray = ko.observableArray([])
+this.LocationArray = ko.observableArray([]);
 this.searchString = ko.observable("");
 
 
@@ -250,5 +250,5 @@ this.filteredList = ko.computed(function() {
 }
 //***GOOGLE MAP ERROR HANDLER***//
  function googleMapError(){
-document.getElementById('map').innerHTML= "There was an error while fetching data from Google Maps, check your internet connection and try again"
+document.getElementById('map').innerHTML= "There was an error while fetching data from Google Maps, check your internet connection and try again";
 }
