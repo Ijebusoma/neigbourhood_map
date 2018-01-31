@@ -22,6 +22,7 @@ RESOURCES REFERENCED WHILE BUILDING THIS PROJECT:
 * StackOverflow
 * Foursquare API [docs](https://developer.foursquare.com/docs/api/venues/search)
 * Intro To Ajax by Udacity
+* https://discussions.udacity.com/t/having-issues-retrieving-data-from-the-foursquare-api/568300
 * [Google Maps Javascript API](https://developers.google.com/maps/documentation/javascript/)
 
 Powered by Foursquare
