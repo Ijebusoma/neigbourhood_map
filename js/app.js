@@ -143,14 +143,14 @@ var locations = [
 	this.address = "";
 
 
-
-
  //FOURSQUARE API Attachments
  clientID="GCQZ0YREZOBQUMWO54DCJTBC33WPB4AR2N0L30ZVO5ZHC5GD"
 clientSecret="VVZIKOHDH0RIEPXBXZPYEYPWBC3ETZISHDXX3ILEU2R5DQP1"
   var largeInfowindow = new google.maps.InfoWindow();
+
+  //this functions creates an infowindow based on the ajax request triggered when a marker is clicked
 function openWindow(marker,infoWindow){
-//alert(this.lat)
+alert(marker.lat)
 
 	var foursquareUrl = "https://api.foursquare.com/v2/venues/search?ll=" +marker.lat+','+marker.lng+'&client_id=' + clientID + '&client_secret=' + clientSecret + '&v=20160118' + '&query=' + marker.title;
 	$.ajax({
@@ -212,14 +212,12 @@ function openWindow(marker,infoWindow){
 
 //marker event handler
 this.marker.addListener('click', function(){
-
-//self.infoWindow.open(map, this);
 self.marker.setAnimation(google.maps.Animation.BOUNCE);
 setTimeout(function() {
       		self.marker.setAnimation(null);
      	}, 2100);
 
-openWindow(this,largeInfowindow)
+openWindow(this,largeInfowindow) //calls the function to perform ajax request and fetch data
 })
 };
 
