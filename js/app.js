@@ -104,11 +104,11 @@ var styles = [
     }
 ]
 var locations = [
-          {title: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
-          {title: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}},
-          {title: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
-          {title: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
-          {title:'Times Square', location:{lat:40.734201,lng:-73.914769}}
+          {title: 'Park Ave Penthouse', lat: 40.7713024, lng: -73.9632393},
+          {title: 'Chelsea Loft', lat: 40.7444883, lng: -73.9949465},
+          {title: 'Union Square Open Floor Plan', lat: 40.7347062, lng: -73.9895759},
+          {title: 'East Village Hip Studio', lat: 40.7281777, lng: -73.984377},
+          {title:'Times Square',lat:40.734201,lng:-73.914769}
           ];
 
         //global variables
@@ -135,21 +135,33 @@ var locations = [
     var LocationModel = function(data) {
 	var self = this;
 	this.name = data.title;
-	this.position=data.location;
+	this.lat=data.lat;
+	this.lng=data.lng;
+	//this.lng=data.location.lng;
 	//this.URL;
 	this.hours = "";
 	this.address = "";
 
+
+
+
  //FOURSQUARE API Attachments
  clientID="GCQZ0YREZOBQUMWO54DCJTBC33WPB4AR2N0L30ZVO5ZHC5GD"
 clientSecret="VVZIKOHDH0RIEPXBXZPYEYPWBC3ETZISHDXX3ILEU2R5DQP1"
-	var foursquareUrl = "https://api.foursquare.com/v2/venues/search?ll=" +data.location.lat+','+data.location.lng+'&client_id=' + clientID + '&client_secret=' + clientSecret + '&v=20160118' + '&query=' + this.name;
+  var largeInfowindow = new google.maps.InfoWindow();
+function openWindow(marker,infoWindow){
+//alert(this.lat)
+
+	var foursquareUrl = "https://api.foursquare.com/v2/venues/search?ll=" +marker.lat+','+marker.lng+'&client_id=' + clientID + '&client_secret=' + clientSecret + '&v=20160118' + '&query=' + marker.title;
 	$.ajax({
 	 url:foursquareUrl,
+	 async:true,
 	 data:{
 	 format:'json'
 	 },
       success: function(data) {
+      alert("success")
+      /**
 
          //var results = data.response.venues[0];
 
@@ -161,28 +173,25 @@ clientSecret="VVZIKOHDH0RIEPXBXZPYEYPWBC3ETZISHDXX3ILEU2R5DQP1"
          if(typeof self.URL === 'undefined'){
          self.URL === 'Website N/A'
          }
+
+         infoWindow.setContent('<p>'+self.name+'</p>'+'<p>'+self.URL+'</p>')
+         infoWindow.open(map,marker)
+**/
         },
       error: function() {
           alert("Error while fetching Foursquare data")
       }
    });
-
+}
 
    //FOURSQUARE ENDS
-    this.infoWindowContent ='<p>'+self.name+'</p>'+'<p>'+self.URL+'</p>'
-    this.infoWindow = new google.maps.InfoWindow({content: this.infoWindowContent});
-
-
-
-
 //array of locations is pushed from the VM and markers drop in upon page load
 	this.marker = new google.maps.Marker({
-       position: this.position,
+      position: new google.maps.LatLng(this.lat, this.lng),
         title: this.name,
         animation: google.maps.Animation.DROP,
         map:map
          });
-
 
    this.visible = ko.observable(true);
 		this.showMarker = ko.computed(function() {
@@ -200,14 +209,17 @@ clientSecret="VVZIKOHDH0RIEPXBXZPYEYPWBC3ETZISHDXX3ILEU2R5DQP1"
 
 	};
 
+
 //marker event handler
 this.marker.addListener('click', function(){
-self.infoWindow.open(map, this);
+
+//self.infoWindow.open(map, this);
 self.marker.setAnimation(google.maps.Animation.BOUNCE);
 setTimeout(function() {
       		self.marker.setAnimation(null);
      	}, 2100);
 
+openWindow(this,largeInfowindow)
 })
 };
 
