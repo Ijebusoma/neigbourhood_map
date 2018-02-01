@@ -2,6 +2,8 @@
  #map {
         height: 100%;
         border-radius:5px;
+        position: relative;
+        top:25px;
 
         }
 
@@ -18,7 +20,7 @@
       }
       .filterform{
       position:relative;
-      top:10px;
+      top:40px;
       border-radius:5px;
       border-color:yellow;
       }
@@ -32,8 +34,11 @@
       position:relative;
       top:20px;
       }
-      footer p{
+      .nessa{
       text-align:center;
       position:relative;
-      bottom:20px;
+      bottom:-25px;
+      }
+      .fsquare{
+        float:left;
       }

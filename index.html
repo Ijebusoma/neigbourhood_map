@@ -21,16 +21,18 @@
     <ul class="nav navbar-nav" data-bind="foreach:filteredList">
         <li class="places-list" data-bind="text:name, click:bounce"><a href="#"></a></li>
     </ul>
-    <input id="filter" class=" filterform navbar-left" data-bind="textInput: searchString, valueUpdate: 'afterkeydown'">
+
   </div>
+  <input id="filter" class=" filterform" data-bind="textInput: searchString, valueUpdate: 'afterkeydown'"placeholder="Enter a place">
 </nav>
 
  <div id="map"></div>
- <footer>Powered by Foursquare <p>Made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="twitter.com/vanessaosuka">Nessa</a></p></footer>
+ <footer><p class="nessa">Made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="twitter.com/vanessaosuka">Nessa</a></p>
+ <p class="fsquare">Powered by Foursquare</p>
+</footer>
 
  </body>
 <script src="js/lib/knockout-3.2.0.js"></script>
  <script src="js/app.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBY2c7XzeUZeLOBKE43mKDORwimce_7KJk&callback=initMap" onerror="googleMapError()" ></script>
 </html>
-
