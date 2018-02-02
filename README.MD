@@ -11,6 +11,7 @@ TECHNICAL SKILLS USED IN THIS PROJECT INCLUDE:
 * Google Maps API
 * Foursquare API
 
+
 GETTING STARTED
 1. Clone or download project file here
 2. Open index.html in your browser
@@ -24,5 +25,7 @@ RESOURCES REFERENCED WHILE BUILDING THIS PROJECT:
 * Intro To Ajax by Udacity
 * https://discussions.udacity.com/t/having-issues-retrieving-data-from-the-foursquare-api/568300
 * [Google Maps Javascript API](https://developers.google.com/maps/documentation/javascript/)
+* [Javascript style Guide](http://udacity.github.io/frontend-nanodegree-styleguide/javascript.html) 
+
 
 Powered by Foursquare
