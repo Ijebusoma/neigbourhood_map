@@ -16,6 +16,7 @@ GETTING STARTED
 1. Clone or download project file here
 2. Open index.html in your browser
 You can also find the demo (here)[https://ijebusoma.github.io/neigbourhood_map/]
+See how it works [here](http://gph.is/2GHvXb4)
  
 RESOURCES REFERENCED WHILE BUILDING THIS PROJECT:
 * Knockout JS [docs](www.knockoutjs.com)
