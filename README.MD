@@ -1,4 +1,4 @@
-The neigbourhood map is a web application featuring a map of New York City This project is based off of the Udacity Fullstack nanodegree.
+The neigbourhood map is a web application featuring a map of New York City. This project is based off of the Udacity Fullstack nanodegree.
 Functionalities include highlighted locations on the map, fetching data asynchronously from the Foursquare API about the highlighted locations on the map.
 It is built with Knockout JS which make use of the MVVM(Model View View-Model) pattern to organise code.
 
